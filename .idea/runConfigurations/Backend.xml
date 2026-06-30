@@ -1,0 +1,20 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Backend" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <envs>
+      <env name="SPRING_DATASOURCE_URL" value="jdbc:postgresql://localhost:5432/concerts" />
+      <env name="SPRING_DATASOURCE_USERNAME" value="concerts" />
+      <env name="SPRING_DATASOURCE_PASSWORD" value="concerts" />
+    </envs>
+    <module name="concerts-booking" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.darksoul.concertsbooking.ConcertsBookingApplication" />
+    <extension name="software.aws.toolkits.jetbrains.core.execution.JavaAwsConnectionExtension">
+      <option name="credential" />
+      <option name="region" />
+      <option name="useCurrentConnection" value="false" />
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+      <option name="RunConfigurationTask" enabled="true" run_configuration_name="DB Only" run_configuration_type="docker-deploy" />
+    </method>
+  </configuration>
+</component>
