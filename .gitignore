@@ -8,8 +8,9 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 .kotlin
-.idea
+.idea/**
 !.idea/runConfigurations/
+!.idea/runConfigurations/**
 *.iws
 *.iml
 *.ipr

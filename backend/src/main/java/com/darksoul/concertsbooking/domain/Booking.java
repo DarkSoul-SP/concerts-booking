@@ -11,8 +11,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Booking {
 
     @Id
@@ -40,47 +45,12 @@ public class Booking {
 
     private LocalDateTime cancelledAt;
 
-    protected Booking() {
-    }
-
     public Booking(UserAccount user, Concert concert, int quantity) {
         this.user = user;
         this.concert = concert;
         this.quantity = quantity;
         this.totalPrice = concert.getTicketPrice().multiply(BigDecimal.valueOf(quantity));
         this.createdAt = LocalDateTime.now();
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public UserAccount getUser() {
-        return user;
-    }
-
-    public Concert getConcert() {
-        return concert;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public BigDecimal getTotalPrice() {
-        return totalPrice;
-    }
-
-    public BookingStatus getStatus() {
-        return status;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public LocalDateTime getCancelledAt() {
-        return cancelledAt;
     }
 
     public boolean isActive() {

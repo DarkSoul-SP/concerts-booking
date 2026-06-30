@@ -8,8 +8,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Version;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Concert {
 
     @Id
@@ -37,12 +43,11 @@ public class Concert {
     @Column(nullable = false)
     private int bookedSeats;
 
+    @Getter(AccessLevel.NONE)
     @Version
     private long version;
 
-    protected Concert() {
-    }
-
+    @Builder
     public Concert(String title, String artist, String venue, LocalDateTime concertDateTime, BigDecimal ticketPrice, int totalSeats) {
         this.title = title;
         this.artist = artist;
@@ -50,38 +55,6 @@ public class Concert {
         this.concertDateTime = concertDateTime;
         this.ticketPrice = ticketPrice;
         this.totalSeats = totalSeats;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getArtist() {
-        return artist;
-    }
-
-    public String getVenue() {
-        return venue;
-    }
-
-    public LocalDateTime getConcertDateTime() {
-        return concertDateTime;
-    }
-
-    public BigDecimal getTicketPrice() {
-        return ticketPrice;
-    }
-
-    public int getTotalSeats() {
-        return totalSeats;
-    }
-
-    public int getBookedSeats() {
-        return bookedSeats;
     }
 
     public int getAvailableSeats() {

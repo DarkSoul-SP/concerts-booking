@@ -23,26 +23,39 @@ public class DataInitializer {
     ) {
         return args -> {
             if (userRepository.count() == 0) {
-                userRepository.save(new UserAccount("demo", passwordEncoder.encode("password")));
+                userRepository.save(UserAccount.builder()
+                        .username("demo")
+                        .passwordHash(passwordEncoder.encode("password"))
+                        .build());
             }
 
             if (concertRepository.count() == 0) {
                 concertRepository.saveAll(List.of(
-                        new Concert("Neon Skyline Tour", "Ava North", "Riverfront Arena",
-                                scheduledAt(8, 20, 0),
-                                new BigDecimal("69.00"), 180),
-                        new Concert("City Lights Live", "The Night Signals", "Grand Hall",
-                                scheduledAt(15, 19, 30),
-                                new BigDecimal("54.50"), 220),
-                        new Concert("Acoustic Evening", "Marta Lane", "Oak Theatre",
-                                scheduledAt(22, 18, 45),
-                                new BigDecimal("38.00"), 90),
-                        new Concert("Electric Pulse", "Voltage Room", "Metro Dome",
-                                scheduledAt(35, 21, 0),
-                                new BigDecimal("82.75"), 350),
-                        new Concert("Piano After Dark", "Leo Vance", "Blue Note Stage",
-                                scheduledAt(48, 20, 15),
-                                new BigDecimal("46.00"), 120)
+                        Concert.builder()
+                                .title("Neon Skyline Tour").artist("Ava North").venue("Riverfront Arena")
+                                .concertDateTime(scheduledAt(8, 20, 0))
+                                .ticketPrice(new BigDecimal("69.00")).totalSeats(180)
+                                .build(),
+                        Concert.builder()
+                                .title("City Lights Live").artist("The Night Signals").venue("Grand Hall")
+                                .concertDateTime(scheduledAt(15, 19, 30))
+                                .ticketPrice(new BigDecimal("54.50")).totalSeats(220)
+                                .build(),
+                        Concert.builder()
+                                .title("Acoustic Evening").artist("Marta Lane").venue("Oak Theatre")
+                                .concertDateTime(scheduledAt(22, 18, 45))
+                                .ticketPrice(new BigDecimal("38.00")).totalSeats(90)
+                                .build(),
+                        Concert.builder()
+                                .title("Electric Pulse").artist("Voltage Room").venue("Metro Dome")
+                                .concertDateTime(scheduledAt(35, 21, 0))
+                                .ticketPrice(new BigDecimal("82.75")).totalSeats(350)
+                                .build(),
+                        Concert.builder()
+                                .title("Piano After Dark").artist("Leo Vance").venue("Blue Note Stage")
+                                .concertDateTime(scheduledAt(48, 20, 15))
+                                .ticketPrice(new BigDecimal("46.00")).totalSeats(120)
+                                .build()
                 ));
             }
         };

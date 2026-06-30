@@ -8,20 +8,17 @@ import com.darksoul.concertsbooking.repository.ConcertRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.http.HttpStatus;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
+@RequiredArgsConstructor
 public class BookingService {
 
     private final BookingRepository bookingRepository;
     private final ConcertRepository concertRepository;
-
-    public BookingService(BookingRepository bookingRepository, ConcertRepository concertRepository) {
-        this.bookingRepository = bookingRepository;
-        this.concertRepository = concertRepository;
-    }
 
     @Transactional
     public Booking createBooking(UserAccount user, Long concertId, int quantity) {

@@ -4,16 +4,14 @@ import com.darksoul.concertsbooking.domain.Concert;
 import com.darksoul.concertsbooking.repository.ConcertRepository;
 import java.time.LocalDateTime;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class ConcertService {
 
     private final ConcertRepository concertRepository;
-
-    public ConcertService(ConcertRepository concertRepository) {
-        this.concertRepository = concertRepository;
-    }
 
     public List<Concert> findFutureConcerts() {
         return concertRepository.findByConcertDateTimeAfterOrderByConcertDateTimeAsc(LocalDateTime.now());

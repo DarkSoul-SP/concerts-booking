@@ -3,11 +3,14 @@ package com.darksoul.concertsbooking.web;
 import com.darksoul.concertsbooking.dto.BookingDto;
 import com.darksoul.concertsbooking.dto.BookingRequests.CreateBookingRequest;
 import com.darksoul.concertsbooking.dto.ConcertDto;
+import com.darksoul.concertsbooking.mapper.BookingMapper;
+import com.darksoul.concertsbooking.mapper.ConcertMapper;
 import com.darksoul.concertsbooking.service.BookingService;
 import com.darksoul.concertsbooking.service.ConcertService;
 import com.darksoul.concertsbooking.service.UserService;
 import jakarta.validation.Valid;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,22 +23,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/concerts")
+@RequiredArgsConstructor
 public class ConcertController {
 
     private final ConcertService concertService;
     private final BookingService bookingService;
     private final UserService userService;
-
-    public ConcertController(ConcertService concertService, BookingService bookingService, UserService userService) {
-        this.concertService = concertService;
-        this.bookingService = bookingService;
-        this.userService = userService;
-    }
+    private final ConcertMapper concertMapper;
+    private final BookingMapper bookingMapper;
 
     @GetMapping
     public List<ConcertDto> listConcerts() {
         return concertService.findFutureConcerts().stream()
-                .map(ConcertDto::from)
+                .map(concertMapper::toDto)
                 .toList();
     }
 
@@ -47,6 +47,6 @@ public class ConcertController {
             @AuthenticationPrincipal org.springframework.security.core.userdetails.User principal
     ) {
         var user = userService.getByUsername(principal.getUsername());
-        return BookingDto.from(bookingService.createBooking(user, concertId, request.quantity()));
+        return bookingMapper.toDto(bookingService.createBooking(user, concertId, request.quantity()));
     }
 }

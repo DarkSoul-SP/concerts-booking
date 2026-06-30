@@ -3,9 +3,11 @@ package com.darksoul.concertsbooking.web;
 import com.darksoul.concertsbooking.dto.AuthRequests.LoginRequest;
 import com.darksoul.concertsbooking.dto.AuthRequests.RegisterRequest;
 import com.darksoul.concertsbooking.dto.UserDto;
+import com.darksoul.concertsbooking.mapper.UserMapper;
 import com.darksoul.concertsbooking.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,15 +25,12 @@ import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/api/auth")
+@RequiredArgsConstructor
 public class AuthController {
 
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
-
-    public AuthController(UserService userService, AuthenticationManager authenticationManager) {
-        this.userService = userService;
-        this.authenticationManager = authenticationManager;
-    }
+    private final UserMapper userMapper;
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
@@ -50,7 +49,7 @@ public class AuthController {
         if (principal == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User is not authenticated");
         }
-        return UserDto.from(userService.getByUsername(principal.getUsername()));
+        return userMapper.toDto(userService.getByUsername(principal.getUsername()));
     }
 
     private UserDto authenticate(String username, String password, HttpServletRequest servletRequest) {
@@ -65,6 +64,6 @@ public class AuthController {
                 context
         );
 
-        return UserDto.from(userService.getByUsername(authentication.getName()));
+        return userMapper.toDto(userService.getByUsername(authentication.getName()));
     }
 }
